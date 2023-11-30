@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { Alert, StyleSheet, View, Text, Image, SafeAreaView } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { supabase } from "../supabase";
 import { Button, Input } from 'react-native-elements';
-import { createStackNavigator } from '@react-navigation/stack';
 
-
-export default function LoginScreen() {
+export default function SignUpScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function signInWithEmail() {
+  async function signUpWithEmail() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
@@ -22,15 +20,14 @@ export default function LoginScreen() {
   }
 
   return (
-    <View>
-      <Text>Login</Text>
+    <View style={[styles.verticallySpaced, styles.mt20]}>
       <Input
         label="Email"
         leftIcon={{ type: "font-awesome", name: "envelope" }}
         onChangeText={(text) => setEmail(text)}
         value={email}
         placeholder="email@address.com"
-        autoCapitalize={"none"}
+        autoCapitalize="none"
       />
       <View style={styles.verticallySpaced}>
         <Input
@@ -40,19 +37,19 @@ export default function LoginScreen() {
           value={password}
           secureTextEntry={true}
           placeholder="Password"
-          autoCapitalize={"none"}
+          autoCapitalize="none"
         />
       </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+      <View style={styles.verticallySpaced}>
         <Button
-          title="Sign in"
-          color="#84A59D"
+          title="Sign up"
           disabled={loading}
-          onPress={() => signInWithEmail()}
+          color="#84A59D"
+          onPress={() => signUpWithEmail()}
         />
       </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

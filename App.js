@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-// import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
+import AuthenticationScreen from './screens/AuthenticationScreen';
 import { supabase } from './supabase';
 
-// const Stack = createStackNavigator();
 
 export default () => {
 
@@ -29,7 +27,7 @@ export default () => {
         </>
       ) : (
         <>
-          <LoginScreen />
+          <AuthenticationScreen />
         </>
       )}
     </SafeAreaView>
