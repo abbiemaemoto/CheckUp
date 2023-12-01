@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import HomeScreen from './screens/HomeScreen';
 import AuthenticationScreen from './screens/AuthenticationScreen';
+import SchedulingScreen from './screens/Scheduling';
+import CameraScreen from './screens/CameraScreen';
+import ChatbotScreen from './screens/Chatbot';
 import { supabase } from './supabase';
 
 
-export default () => {
+export default function App() {
 
   const [session, setSession] = useState(null);
 
@@ -20,17 +23,19 @@ export default () => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, position: "relative" }}>
-      {session ? (
-        <>
-          <HomeScreen/>
-        </>
-      ) : (
-        <>
-          <AuthenticationScreen />
-        </>
-      )}
-    </SafeAreaView>
+    <HomeScreen />
+    // <CameraScreen />
+    // <SafeAreaView style={{ flex: 1, position: "relative" }}>
+    //   {session ? (
+    //     <>
+    //       <HomeScreen/>
+    //     </>
+    //   ) : (
+    //     <>
+    //       <AuthenticationScreen />
+    //     </>
+    //   )}
+    // </SafeAreaView>
   );
 };
 

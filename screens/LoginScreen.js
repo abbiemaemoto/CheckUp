@@ -19,6 +19,7 @@ export default function LoginScreen() {
 
     if (error) Alert.alert(error.message);
     setLoading(false);
+
   }
 
   return (
@@ -47,6 +48,7 @@ export default function LoginScreen() {
           />
         </View>
         <View style={[styles.signupbox, styles.mt20]}>
+          {/* add navigation.navigate to HomeScreen */}
           <Pressable style={styles.button} onPress={() => signInWithEmail()}>
             <Text style={styles.buttontext}>Log In</Text>
           </Pressable>

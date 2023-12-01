@@ -19,14 +19,44 @@ export default function SignUpScreen() {
 
   async function signUpWithEmail() {
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+  
+    // Sign up the user
+    const { data: { session }, error: signUpError } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
+  
+    // Handle sign-up error
+    if (signUpError) {
+      Alert.alert("SIGN UP ALERT: " + signUpError.message);
+      setLoading(false);
+      return;
+    }
+  
+    // Insert user profile
+    const { data, error: profileError } = await supabase
+      .from("profiles_test")
+      .upsert(
+        [
+          {
+            user_id: user.id,
+            first_name: firstName,
+            last_name: lastName,
+          },
+        ],
+        { onConflict: ['user_id'] }
+      );
+  
+    // Handle profile insert error
+    if (profileError) {
+      Alert.alert(profileError.message);
+    }
 
-    if (error) Alert.alert(error.message);
+    Alert.alert("Check Your Email for Verification!")
+  
     setLoading(false);
   }
+  
 
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
@@ -51,7 +81,6 @@ export default function SignUpScreen() {
           />
           <Input
             label="Email"
-            // leftIcon={{ type: "font-awesome", name: "envelope" }}
             onChangeText={(text) => setEmail(text)}
             value={email}
             placeholder="email@address.com"
@@ -60,7 +89,6 @@ export default function SignUpScreen() {
           />
           <Input
             label="Password"
-            // leftIcon={{ type: "font-awesome", name: "lock" }}
             onChangeText={(text) => setPassword(text)}
             value={password}
             secureTextEntry={true}
@@ -70,7 +98,7 @@ export default function SignUpScreen() {
           />
         </View>
         <View style={[styles.signupbox, styles.mt20]}>
-          <Pressable style={styles.button} onPress={() => signUpWithEmail()}>
+          <Pressable style={styles.button} onPress={() => signUpWithEmail()} disabled={loading}>
             <Text style={styles.buttontext}>Sign Up</Text>
           </Pressable>
         </View>
