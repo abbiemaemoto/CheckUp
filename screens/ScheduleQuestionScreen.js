@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 0, // This ensures the header spans the entire width
     alignItems: "center",
     justifyContent: "flex-end",
-    paddingBottom: 15, // Space under the text in the header
+    paddingBottom: 12, // Space under the text in the header
   },
   headerTitle: {
     marginTop: 10,
@@ -107,10 +107,10 @@ const styles = StyleSheet.create({
     fontFamily: "AvenirNext-DemiBold",
   },
   headerStatus: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#fff",
     marginBottom: 10, // Space below the status text
-    fontFamily: "AvenirNext-Regular",
+    fontFamily: "AvenirNext-DemiBold",
   },
   content: {
     flex: 2,
@@ -125,18 +125,17 @@ const styles = StyleSheet.create({
     marginVertical: 20, // Increased space around the image
   },
   questionTitle: {
-    fontSize: 27,
+    fontSize: 24,
     fontWeight: "bold",
     fontFamily: "AvenirNext-DemiBold",
     textAlign: "center",
     marginTop: 20, // Space above the title
     marginBottom: 16, // Space below the title
+
   },
   questionSubtitle: {
     fontSize: 18,
-    fontWeight: "bold",
-    fontFamily: "AvenirNext-DemiBold",
-
+    fontFamily: "AvenirNext-Regular",
     color: "#8CB9EF",
     textAlign: "center",
     marginBottom: 30, // Increased space below the subtitle
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 15,
     paddingHorizontal: 30,
-    borderRadius: 5,
+    borderRadius: 10,
     marginBottom: 20, // Increased space below the buttons
     alignItems: "center",
     borderWidth: 1,
@@ -152,21 +151,22 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   buttonText: {
-    fontWeight: "bold",
-    fontFamily: "AvenirNext-DemiBold",
+    // fontWeight: "bold",
+    fontFamily: "AvenirNext-Regular",
     fontSize: 16,
     color: "#000", // Default color for the rest of the text
   },
   yesColor: {
     color: "#8CB9EF", // This will be the color for "Yes"
+    fontWeight: 'bold',
   },
   noColor: {
     color: "#FFB6C1", // This will be the color for "No"
+    fontWeight: 'bold',
   },
   footer: {
     backgroundColor: "#8CB9EF",
     height: '150%',
-    // width: '150%',
     justifyContent: "flex-start",
     alignItems: "center",
     bottom: -50,

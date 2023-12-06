@@ -145,7 +145,7 @@ export default function Chatbot() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'green',
+    backgroundColor: 'white',
   },
   header: {
     backgroundColor: '#8CB9EF',

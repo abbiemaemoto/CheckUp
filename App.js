@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { AppointmentsProvider } from './AppointmentContext';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import HomeScreen from './screens/HomeScreen';
-import AuthenticationScreen from './screens/AuthenticationScreen';
-import SchedulingScreen from './screens/Scheduling';
-import CameraScreen from './screens/CameraScreen';
-import ChatbotScreen from './screens/Chatbot';
+import AuthenticationStack from './screens/AuthenticationScreen';
 import { supabase } from './supabase';
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 
 export default function App() {
@@ -23,8 +21,14 @@ export default function App() {
   }, []);
 
   return (
-    <HomeScreen />
-    // <CameraScreen />
+    <AppointmentsProvider>
+      <NavigationContainer>
+        <AuthenticationStack />
+      </NavigationContainer>
+      {/* <CameraInsurance /> */}
+      {/* <HomeScreen /> */}
+    </AppointmentsProvider>
+        // <CameraScreen />
     // <SafeAreaView style={{ flex: 1, position: "relative" }}>
     //   {session ? (
     //     <>

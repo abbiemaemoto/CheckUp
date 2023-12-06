@@ -3,11 +3,9 @@ import {
   StyleSheet,
   Image,
   View,
-  SafeAreaView,
   Dimensions,
   Pressable,
-  ScrollView,
-  Header,
+  KeyboardAvoidingView,
   TextInput,
   StatusBar,
 } from "react-native";
@@ -23,7 +21,7 @@ export default function Search() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#8CB9EF" />
       <View style={styles.blueBox}>
         <Pressable
@@ -37,7 +35,7 @@ export default function Search() {
           <Text style={styles.greetingText}>Status: Scheduling an Appointment</Text>
         </View>
       </View>
-      <View style={{ flex: 0.2 }} />
+      <View style={{ flex: 0.05 }} />
 
       <View style={{ flex: 0.1, marginBottom: 20 }}>
         <Text style={styles.midText}>
@@ -70,14 +68,14 @@ export default function Search() {
       <View style={{ flex: 0.2 }} />
 
       <View style={styles.footer}>
-        <Pressable style={styles.homeButton}>
+        <Pressable style={styles.homeButton} onPress={() => navigation.dispatch(StackActions.popToTop())}>
           <Image
             source={require("../assets/homebutton.png")}
             style={styles.home}
           />
         </Pressable>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -87,6 +85,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 10,
   },
 
   image: {
@@ -132,9 +131,9 @@ const styles = StyleSheet.create({
 
   },
   greetingText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#fff',
-    fontFamily: "AvenirNext-Regular",
+    fontFamily: "AvenirNext-DemiBold",
     marginBottom: 0, // Space below the status text
   },
 

@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { supabase } from "../supabase";
 import { Button, Input } from "react-native-elements";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+
 
 export default function SignUpScreen() {
   const [firstName, setfirstName] = useState("");
@@ -16,6 +18,7 @@ export default function SignUpScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
 
   async function signUpWithEmail() {
     setLoading(true);
@@ -100,6 +103,9 @@ export default function SignUpScreen() {
         <View style={[styles.signupbox, styles.mt20]}>
           <Pressable style={styles.button} onPress={() => signUpWithEmail()} disabled={loading}>
             <Text style={styles.buttontext}>Sign Up</Text>
+          </Pressable>
+          <Pressable onPress={()=>navigation.navigate("CameraInsurance")}>
+            <Text>Next</Text>
           </Pressable>
         </View>
       </View>

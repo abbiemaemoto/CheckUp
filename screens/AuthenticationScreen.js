@@ -11,6 +11,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import Login from "../screens/LoginScreen";
 import SignUp from "../screens/SignUpScreen";
+import CameraInsurance from "./CameraInsurance";
+import CameraCalendar from "./CameraCalendar";
+import SyncCalendar from "./SyncCalendar";
+import HomeStack from "./HomeScreen";
+import Preferences from "./Preferences";
+import ProfileDone from "./ProfileDone";
 
 const AuthenticationScreen = ({navigation})=> {
   const onPress = (screen) => {
@@ -27,7 +33,7 @@ const AuthenticationScreen = ({navigation})=> {
           />
           <Text style={styles.titletext}>Care On Your Calendar</Text>
         </View>
-        <View style={styles.container}>
+        <View style={{flex:0.75, flexDirection: 'center', alignItems: 'center'}}>
           <Pressable style={styles.button} onPress={() => onPress("Login")}>
             <Text style={styles.buttontext}>Log In</Text>
           </Pressable>
@@ -43,17 +49,19 @@ const Stack = createStackNavigator();
 
 export default function AuthenticationStack() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    // <NavigationContainer>
+      <Stack.Navigator initialRouteName="Authentication">
         <Stack.Screen name="Authentication" component={AuthenticationScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Login" component={Login} options={{headerBackTitle: 'Back', headerTintColor: '#15273F', headerTitle:'', headerStyle: {
-            backgroundColor: '#ffffff',
-          },}} />
-        <Stack.Screen name="SignUp" component={SignUp} options={{headerBackTitle: 'Back', headerTintColor: '#15273F', headerTitle:'', headerStyle: {
-            backgroundColor: '#ffffff',
-          },}} />
+        <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+        <Stack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
+        <Stack.Screen name="CameraInsurance" component={CameraInsurance} options={{headerShown:false}}/>
+        <Stack.Screen name="SyncCalendar" component={SyncCalendar} options={{headerShown:false}}/>
+        <Stack.Screen name="CameraCalendar" component={CameraCalendar} options={{headerShown:false}}/>
+        <Stack.Screen name="Preferences" component={Preferences} options={{headerShown:false}} />
+        <Stack.Screen name="ProfileDone" component={ProfileDone} options={{headerShown:false}} />
+        <Stack.Screen name="HomeStack" component={HomeStack} options={{headerShown:false}} />
     </Stack.Navigator>
-    </NavigationContainer>
+    // </NavigationContainer>
   );
 }
 

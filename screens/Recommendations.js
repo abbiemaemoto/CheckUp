@@ -18,8 +18,8 @@ const backArrow = require("../assets/backarrow.png");
 export default function Recommendations({ route }) {
   const navigation = useNavigation();
   const { date, time } = route.params;
-  const handlePress = (date, time, doctor) => {
-    navigation.navigate('Confirmation', { date, time, doctor });
+  const handlePress = (date, time, doctor, image) => {
+    navigation.navigate('PreConfirm', { date, time, doctor, image });
   };
   return (
     <View style={styles.container}>
@@ -50,24 +50,24 @@ export default function Recommendations({ route }) {
         <Text style={styles.nextText}>
           Select a dentist for your upcoming appointment.
         </Text>
-        <Text style={styles.midText}>Recommended for You.</Text>
+        <Text style={styles.midText}>Recommended for You:</Text>
       </View>
 
       <View style={styles.tinyBoxWrapper}>
         <View style={styles.tinyBox}>
-          <Text style={styles.dateText}>Closest</Text>
+          <Text style={styles.boldText}>Closest</Text>
         </View>
         <View style={styles.tinyBox}>
-          <Text style={styles.dateText}>Top Pick</Text>
+          <Text style={styles.boldText}>Top Pick</Text>
         </View>
         <View style={styles.tinyBox}>
-          <Text style={styles.dateText}>Top Rated</Text>
+          <Text style={styles.boldText}>Top Rated</Text>
         </View>
       </View>
 
       <View style={styles.pinkBoxWrapper}>
         <View style={styles.pinkBox}>
-          <Text style={styles.dateText}>Dr. Adams</Text>
+          <Text style={styles.boldText}>Dr. Adams</Text>
           <Image source={require("../assets/doctor2.png")} style={styles.doc} />
           <Text style={styles.titles}>Location: </Text>
           <Text style={styles.smallerTime}>Menlo Park</Text>
@@ -81,12 +81,12 @@ export default function Recommendations({ route }) {
             source={require("../assets/3stars.png")}
             style={styles.reviews}
           />
-          <Pressable style={styles.select} onPress={() => handlePress(date, time, "Dr. Adams")}>
+          <Pressable style={styles.select} onPress={() => handlePress(date, time, "Dr. Adams", "doctor2")}>
             <Text>select</Text>
           </Pressable>
         </View>
         <View style={styles.pinkBox}>
-          <Text style={styles.dateText}>Dr. Barnes</Text>
+          <Text style={styles.boldText}>Dr. Barnes</Text>
           <Image source={require("../assets/doctor1.png")} style={styles.doc} />
           <Text style={styles.titles}>Location: </Text>
           <Text style={styles.smallerTime}>San Jose</Text>
@@ -100,12 +100,12 @@ export default function Recommendations({ route }) {
             source={require("../assets/5stars.png")}
             style={styles.reviews}
           />
-          <Pressable style={styles.select} onPress={() => handlePress(date, time, "Dr. Barnes")}>
+          <Pressable style={styles.select} onPress={() => handlePress(date, time, "Dr. Barnes", "doctor1")}>
             <Text>select</Text>
           </Pressable>
         </View>
         <View style={styles.pinkBox}>
-          <Text style={styles.dateText}>Dr. Lee</Text>
+          <Text style={styles.boldText}>Dr. Lee</Text>
           <Image source={require("../assets/doctor3.png")} style={styles.doc} />
           <Text style={styles.titles}>Location: </Text>
           <Text style={styles.smallerTime}>Menlo Park</Text>
@@ -119,14 +119,14 @@ export default function Recommendations({ route }) {
             source={require("../assets/5stars.png")}
             style={styles.reviews}
           />
-          <Pressable style={styles.select} onPress={() => handlePress(date, time, "Dr. Lee")}>
+          <Pressable style={styles.select} onPress={() => handlePress(date, time, "Dr. Lee", "doctor3")}>
             <Text>select</Text>
           </Pressable>
         </View>
       </View>
 
       <View style={styles.footer}>
-        <Pressable style={styles.homeButton}>
+        <Pressable style={styles.homeButton} onPress={() => navigation.dispatch(StackActions.popToTop())}>
           <Image
             source={require("../assets/homebutton.png")}
             style={styles.home}
@@ -277,13 +277,21 @@ const styles = StyleSheet.create({
   dateText: {
     fontFamily: "AvenirNext-DemiBold",
     fontWeight: "600",
+    fontSize: 24,
+    padding: 2,
+  },
+
+  boldText: {
+    fontFamily: "AvenirNext-DemiBold",
+    fontWeight: "600",
     fontSize: 16,
     padding: 2,
   },
+
   time: {
     fontStyle: "italic",
     fontFamily: "AvenirNext-Regular",
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 500,
   },
 
@@ -326,20 +334,12 @@ const styles = StyleSheet.create({
   },
 
   homeButton: {
-    // borderColor: "transparent",
-    // borderRadius: 5,
-    // borderWidth: 2,
-    // padding: 1,
     backgroundColor: "transparent",
     width: windowWidth,
     justifyContent: "flex-start",
     alignItems: "center",
   },
-  decor: {
-    width: 200,
-    height: 5,
-    margin: 8,
-  },
+
   backButton: {
     position: "absolute",
     top: 40,

@@ -16,8 +16,14 @@ import { useNavigation, StackActions } from "@react-navigation/native";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-// const backArrow = require('../assets/backarrow.png');
+const backArrow = require('../assets/backarrow.png');
 
+
+const data = [
+  { date: "Nov 6, 2023", time: "2:30-4:30 pm" },
+  { date: "Nov 10, 2023", time: "10:00-11:00 am" },
+  { date: "Nov 15, 2023", time: "9:00-10:00am" },
+];
 
 export default function Scheduling() {
   const navigation = useNavigation();
@@ -29,12 +35,12 @@ export default function Scheduling() {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#8CB9EF" />
       <View style={styles.blueBox}>
-        {/* <Pressable
+        <Pressable
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
           <Image source={backArrow} style={styles.backArrow} />
-        </Pressable> */}
+        </Pressable>
         <View style={styles.greeting}>
           <Text style={styles.greetingText}>Angela's Calendar</Text>
         </View>
@@ -58,27 +64,15 @@ export default function Scheduling() {
         </Text>
       </View>
       <View style={styles.pinkBoxWrapper}>
-        <View style={styles.pinkBox}>
-          <Text style={styles.dateText}>Nov 6, 2023</Text>
-          <Text style={styles.time}>2:30-4:30 pm</Text>
-          <Pressable style={styles.select} onPress={() => handlePress("Nov 6, 2023", "2:30-4:30pm")}>
-            <Text>select</Text>
-          </Pressable>
-        </View>
-        <View style={styles.pinkBox}>
-          <Text style={styles.dateText}>Nov 10, 2023</Text>
-          <Text style={styles.time}>10:00-11:00 am</Text>
-          <Pressable style={styles.select} onPress={() => handlePress("Nov 10, 2023", "10:00-11:00am")}>
-            <Text>select</Text>
-          </Pressable>
-        </View>
-        <View style={styles.pinkBox}>
-          <Text style={styles.dateText}>Nov 15, 2023</Text>
-          <Text style={styles.time}>9:00-10:00 am</Text>
-          <Pressable style={styles.select} onPress={() => handlePress("Nov 15, 2023", "9:00-10:00am")}>
-            <Text>select</Text>
-          </Pressable>
-        </View>
+        {data.map((item, index) => (
+          <View style={styles.pinkBox} key={index}>
+            <Text style={styles.dateText}>{item.date}</Text>
+            <Text style={styles.time}>{item.time}</Text>
+            <Pressable style={styles.select} onPress={() => handlePress(item.date, item.time)}>
+              <Text>select</Text>
+            </Pressable>
+          </View>
+        ))}
       </View>
       <View style={{ flex: 0.5 }} />
       <View style={styles.footer}>
@@ -186,10 +180,11 @@ const styles = StyleSheet.create({
   pinkBox: {
     width: 120,
     height: 80,
-    backgroundColor: "pink",
+    backgroundColor: "#FCE4EC",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
   },
 
   dateText: {

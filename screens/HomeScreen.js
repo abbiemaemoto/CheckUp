@@ -1,21 +1,39 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable, Image, SafeAreaView, StatusBar } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Image,
+  SafeAreaView,
+  Dimensions,
+  StatusBar,
+} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import HeartIcon from '../assets/pinkheart.png';
-import DiamondIcon from '../assets/whitediamond.png';
-import LoadingScreen from './LoadingScreen';
-import ChatbotScreen from './Chatbot';
-import RecommendationScreen from './Recommendations';
-import SchedulingScreen from './Scheduling';
-import Confirmation from './Confirmation';
-import Selection from './ScheduleQuestionScreen';
-import Search from './Search';
+import { useAppointments } from "../AppointmentContext";
+import HeartIcon from "../assets/pinkheart.png";
+import DiamondIcon from "../assets/whitediamond.png";
+import LoadingScreen from "./LoadingScreen";
+import ChatbotScreen from "./Chatbot";
+import RecommendationScreen from "./Recommendations";
+import SchedulingScreen from "./Scheduling";
+import Confirmation from "./Confirmation";
+import Selection from "./ScheduleQuestionScreen";
+import Search from "./Search";
+import Rescheduling from "./ReschedulingHome";
+import CancelConfirm from "./CancelConfirmation";
+import RescheduleConfirm from "./RescheduleConfirmation";
+import PreConfirm from "./PreConfirmation";
+import RescheduleCalendar from "./RescheduleCalendar";
+
+const windowWidth = Dimensions.get("window").width;
 
 const HomeScreen = ({ navigation }) => {
   const onPress = (screen) => {
     navigation.navigate(screen);
   };
+  const { state, dispatch } = useAppointments();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -36,104 +54,139 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.reminderContainer}>
           <View style={styles.reminderImageContainer}>
             <Image
-              source={require('../assets/penguin.png')}
+              source={require("../assets/penguin.png")}
               style={styles.penguinIcon}
             />
             <Image
-              source={require('../assets/exclamation.png')}
+              source={require("../assets/exclamation.png")}
               style={styles.exclamationIcon}
             />
           </View>
           <View style={styles.reminderTextContainer}>
             <Text style={styles.reminderText}>
-              It’s been{' '}
-              <Text style={styles.boldBlueText}>1 year</Text>
-              {'\n'}since your last{' '}
+              It’s been <Text style={styles.boldBlueText}>1 year</Text>
+              {"\n"}since your last{" "}
               <Text style={styles.boldBlueText}>eye doctor</Text>
-              {'\n'}appointment
+              {"\n"}appointment
             </Text>
           </View>
         </View>
-        <View style={styles.appointmentsContainer}>
-          <Text style={styles.appointmentsHeader}>
-            Your Upcoming Appointments
-          </Text>
-          <View style={styles.appointmentBox}>
-            <View style={styles.appointmentDetailsContainer}>
-              <Text style={styles.appointmentTitle}>Flu Shot Appointment</Text>
-              <Text style={styles.appointmentDetails}>
-                with Doctor Barnes (New)
-              </Text>
-            </View>
-            <View style={styles.appointmentDateTimeContainer}>
-              <View>
-                <Text style={styles.appointmentDate}>
-                  Friday, December 1st
+        <Text style={styles.appointmentsHeader}>
+          Your Upcoming Appointments
+        </Text>
+        <View style={styles.pinkBoxWrapper}>
+          {state.appointments.slice(0, 2).map((appointment) => (
+            <View style={styles.pinkBox} key={appointment.id}>
+              <View style={styles.line1}>
+                <Text style={styles.appointmentTitle}>
+                  Appointment with {appointment.doctor}
                 </Text>
-                <Text style={styles.appointmentTime}>2:30-4:00pm</Text>
+                <Text style={styles.bodyText}>{appointment.date}</Text>
+                <Text style={styles.time}>{appointment.time}</Text>
               </View>
-              <Pressable style={styles.moreInfoButton}>
-                <Text style={styles.moreInfoButtonText}>More Info</Text>
-              </Pressable>
-            </View>
-          </View>
-
-          <View style={styles.appointmentBox}>
-            <View style={styles.appointmentDetailsContainer}>
-              <Text style={styles.appointmentTitle}>Yearly Checkup</Text>
-              <Text style={styles.appointmentDetails}>
-                with Doctor Suh (Primary)
-              </Text>
-            </View>
-            <View style={styles.appointmentDateTimeContainer}>
-              <View>
-                <Text style={styles.appointmentDate}>
-                  Tuesday, December 5th
-                </Text>
-                <Text style={styles.appointmentTime}>1:00-1:30PM</Text>
+              <View style={{flexDirection: 'column', justifyContent: 'flex-end', height: 60}}>
+                <Pressable style={styles.moreInfoButton}>
+                  <Text style={styles.moreInfoButtonText}>More info</Text>
+                </Pressable>
               </View>
-              <Pressable style={styles.moreInfoButton}>
-                <Text style={styles.moreInfoButtonText}>More Info</Text>
-              </Pressable>
             </View>
-          </View>
+          ))}
         </View>
         <View style={styles.buttonsContainer}>
-          <Pressable style={styles.button} onPress={() => onPress('Selection')}>
+          <Pressable style={styles.button} onPress={() => onPress("Selection")}>
             <Text style={styles.buttonText}>Schedule Appointment</Text>
           </Pressable>
-          <Pressable style={styles.button}>
+          <Pressable
+            style={styles.button}
+            onPress={() => onPress("Rescheduling")}
+          >
             <Text style={styles.buttonText}>View Appointments</Text>
           </Pressable>
         </View>
         <View style={styles.footer}>
           <Image
-            source={require('../assets/homebutton.png')}
+            source={require("../assets/homebutton.png")}
             style={styles.footerIcon}
           />
         </View>
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Selection" component={Selection} options={{headerShown: false}}/>
-        <Stack.Screen name="Chatbot" component={ChatbotScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Search" component={Search} options={{headerShown: false}}/>
-        <Stack.Screen name="Loading" component={LoadingScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Scheduling" component={SchedulingScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Recommendations" component={RecommendationScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Confirmation" component={Confirmation} options={{headerShown: false}}/>
-
-    </Stack.Navigator>
-    </NavigationContainer>
+    // <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Selection"
+          component={Selection}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Chatbot"
+          component={ChatbotScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={Search}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Loading"
+          component={LoadingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Scheduling"
+          component={SchedulingScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Recommendations"
+          component={RecommendationScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Confirmation"
+          component={Confirmation}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Rescheduling"
+          component={Rescheduling}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CancelConfirm"
+          component={CancelConfirm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="RescheduleConfirm"
+          component={RescheduleConfirm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PreConfirm"
+          component={PreConfirm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="RescheduleCalendar"
+          component={RescheduleCalendar}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    // </NavigationContainer>
   );
 }
 
@@ -143,65 +196,65 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'white'
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "white",
   },
   welcomeText: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   reminderContainer: {
     flex: 2,
     top: -40,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
     borderRadius: 10,
-    marginHorizontal: 20, 
+    marginHorizontal: 20,
   },
   reminderImageContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 25, 
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 25,
   },
   reminderText: {
-    flexDirection: 'row', 
-    flexWrap: 'wrap', 
+    flexDirection: "row",
+    flexWrap: "wrap",
     fontSize: 16,
-    textAlign: 'center',
-    color: '#000',
-    fontFamily: 'AvenirNext-DemiBold', 
+    textAlign: "center",
+    color: "#000",
+    fontFamily: "AvenirNext-DemiBold",
   },
   boldBlueText: {
-    fontWeight: 'bold',
-    color: '#8CB9EF', 
+    fontWeight: "bold",
+    color: "#8CB9EF",
   },
   titleText: {
-    fontFamily: 'AvenirNext-DemiBold',
+    fontFamily: "AvenirNext-DemiBold",
     fontSize: 24,
   },
   header: {
-    width: '100%',
+    width: "100%",
     height: 150,
-    backgroundColor: '#8CB9EF',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#8CB9EF",
+    alignItems: "center",
+    justifyContent: "center",
     top: -60,
   },
   exclamationIcon: {
-    width: 40, 
-    height: 40, 
-    resizeMode: 'contain',
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
     marginLeft: -30,
-    top: 22
+    top: 22,
   },
   penguinIcon: {
-    width: 100, 
-    height: 100, 
-    resizeMode: 'contain',
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
   },
   greetingContainer: {
     top: 48,
@@ -209,40 +262,40 @@ const styles = StyleSheet.create({
   },
   greeting: {
     fontSize: 26,
-    color: 'white',
-    fontFamily: 'AvenirNext-DemiBold'
+    color: "white",
+    fontFamily: "AvenirNext-DemiBold",
   },
   greetingName: {
     fontSize: 26,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
   iconsContainer: {
-    position: 'relative',
+    position: "relative",
     height: 60,
   },
   diamondIcon: {
-    position: 'absolute',
+    position: "absolute",
     top: -100,
     width: 170,
     height: 150,
-    resizeMode: 'contain',
-    left: 30
+    resizeMode: "contain",
+    left: 30,
   },
   heartIcon: {
-    position: 'absolute',
+    position: "absolute",
     bottom: -35,
     width: 150,
     height: 150,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     left: 40,
   },
   buttonsContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
     flex: 2,
-    width: '80%',
+    width: "80%",
     top: 30,
   },
   button: {
@@ -256,89 +309,50 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    width: '80%'
+    width: "80%",
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#15273F',
+    fontWeight: "bold",
+    color: "#15273F",
   },
   appointmentsContainer: {
-    width: '80%', 
-    alignItems: 'center',
-    alignSelf: 'center',
+    width: "80%",
+    alignItems: "center",
+    alignSelf: "center",
     flex: 9,
     top: -20,
   },
   appointmentsHeader: {
     fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 15, 
-  },
-  appointmentDateTimeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between', 
-    alignItems: 'center', 
-    alignSelf: 'stretch', 
-    marginBottom: 0, 
-  },
-  appointmentBox: {
-    backgroundColor: '#FCE4EC', // Light pink background
-    borderRadius: 10,
-    borderColor: '#000000', 
-    borderWidth: 1,
-    padding: 15,
-    width: '100%', 
-    marginBottom: 15, 
+    fontWeight: "bold",
+    marginBottom: 15,
   },
   appointmentTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    fontStyle: 'normal', 
-  },
-  appointmentDetailsContainer: {
-    alignSelf: 'stretch', 
-    marginBottom: 10, 
-  },
-  appointmentDetails: {
-    fontSize: 14,
-    marginBottom: 5, 
-  },
-  dateInfoContainer: {
-    marginTop: 5, 
-    marginBottom: 15, 
-    alignSelf: 'stretch', 
-  },
-  appointmentDate: {
-    fontSize: 14,
-    fontStyle: 'italic', 
-  },
-  appointmentTime: {
-    fontSize: 14,
-    fontStyle: 'italic', 
+    fontSize: 15,
+    fontWeight: "bold",
+    fontStyle: "normal",
   },
   moreInfoButton: {
     borderWidth: 1,
-    backgroundColor: '#FFFFFF', 
-    borderColor: '#000000',
+    backgroundColor: "#FFFFFF",
+    borderColor: "#000000",
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 15,
-    marginTop: 'auto', 
-    alignSelf: 'flex-end', 
   },
   moreInfoButtonText: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#000', 
+    fontWeight: "bold",
+    color: "#000",
   },
   footer: {
-    backgroundColor: '#8CB9EF',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#8CB9EF",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
     bottom: -60,
-    flex: 2,
+    flex: 1.2,
     padding: 20,
   },
   footerIcon: {
@@ -346,7 +360,48 @@ const styles = StyleSheet.create({
     height: 70,
     top: -10,
   },
+  line1: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    // backgroundColor: 'purple',
+  },
+  pinkBoxWrapper: {
+    width: windowWidth,
+    height: 250,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    // backgroundColor: 'red'
+    // flex: 1,
+  },
+
+  pinkBox: {
+    width: "90%",
+    height: 80,
+    backgroundColor: "#FCE4EC",
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 10,
+  },
+
+  dateText: {
+    fontFamily: "AvenirNext-DemiBold",
+    fontWeight: "700",
+  },
+  time: {
+    fontStyle: "italic",
+    fontFamily: "AvenirNext-Regular",
+  },
+  bodyText: {
+    color: "black",
+    fontSize: 14,
+    fontFamily: "AvenirNext-Regular",
+    fontWeight: "400",
+    textAlign: "center",
+  },
 });
-
-
-

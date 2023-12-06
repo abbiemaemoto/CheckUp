@@ -20,11 +20,11 @@ export default function Confirmation({ route }) {
         >
           <Image source={backArrow} style={styles.backArrow} />
         </Pressable>
-            <View style={{flex: 0.5}}/>
+            <View style={{flex: 0.3}}/>
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                 <Image source={require('../assets/accept.png')} style={styles.check}/>
             </View>
-            <View style={{flex: 2, justifyContent: 'center', alignItems: 'center', width: '100%'}}>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%'}}>
                 <Text style={styles.regularText}>Your appointment on</Text>
                 <View style={styles.lineContainer}>
                     <View style={{width: '120%', flexDirection: 'row',justifyContent:'center', alignItems:'center'}}>
@@ -103,30 +103,30 @@ const styles = StyleSheet.create({
     },
 
     lineContainer2: {
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         flexDirection: 'row',
         width: '75%',
     },
 
     regularText: {
         color: 'black',
-        fontSize: 36,
+        fontSize: 30,
         fontWeight: '600',
         fontFamily: 'AvenirNext-DemiBold',
-        // textAlign: 'center',
     },
 
     doctorText: {
         color: 'black',
-        fontSize: 36,
+        fontSize: 30,
         fontWeight: '700',
         fontFamily: 'AvenirNext-DemiBold',
         textAlign: 'center',
+        marginLeft: 10,
     },
 
     pinkText: {
         color: 'pink',
-        fontSize: 36,
+        fontSize: 30,
         fontFamily: 'AvenirNext-DemiBold',
         fontWeight: '700',
         // textAlign: 'center',        
