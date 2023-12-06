@@ -6,73 +6,35 @@ import {
   Pressable,
   StyleSheet,
   Dimensions,
+  TouchableOpacity
 } from "react-native";
 import { useNavigation, StackActions } from "@react-navigation/native";
-import HeartIcon from "../assets/pinkheart.png";
-import DiamondIcon from "../assets/whitediamond.png";
-import doctor1 from "../assets/doctor1.png";
-import doctor2 from "../assets/doctor2.png";
-import doctor3 from "../assets/doctor3.png";
 import { useAppointments } from "../AppointmentContext";
-import { createIdGenerator } from "../AppointmentContext";
 
-const TextWithBoldLabel = ({ label, children }) => (
-  <Text style={styles.regularText}>
-    <Text style={styles.boldLabel}>{label}</Text>
-    {children}
-  </Text>
-);
+import penguinImage from "../assets/penguin.png"
+import mapImage from "../assets/map.jpeg"
+
 const windowWidth = Dimensions.get("window").width;
 const backArrow = require("../assets/backarrow.png");
 
-const DoctorImage = ({ image }) => {
-  let selectedImage;
-  switch (image) {
-    case "doctor1":
-      selectedImage = doctor1;
-      break;
-    case "doctor2":
-      selectedImage = doctor2;
-      break;
-    case "doctor3":
-      selectedImage = doctor3;
-      break;
-    default:
-      selectedImage = doctor1; // Default to a specific image
-  }
-  return <Image style={styles.doctorImage} source={selectedImage} />;
-};
+const DetailLine = ({ label, value }) => (
+  <Text style={styles.detailText}>
+    <Text style={styles.boldText}>{label}</Text>{value}
+  </Text>
+);
 
-export const addAppointment = (newAppointment) => ({
-  type: "ADD_APPOINTMENT",
-  payload: newAppointment,
-});
-
-export default function PreConfirmation({ route }) {
+export default function MoreInfo({ route }) {
   const navigation = useNavigation();
-  const { date, time, doctor, image } = route.params;
+  const { date, time, doctor, id } = route.params;
   const { state, dispatch } = useAppointments();
-  const { firstName } = useAppointments();
 
+  const handleReschedulePress = (id, doctor) => {
+    navigation.navigate("RescheduleCalendar", { id, doctor });
+  };
 
-  const handleAppointment = () => {
-    const newId =
-      state.appointments.length > 0
-        ? state.appointments[state.appointments.length - 1].id + 1
-        : 1;
-
-    const newAppointment = {
-      id: newId,
-      date: date,
-      time: time,
-      doctor: doctor,
-      description:
-        "CheckUp scheduled this appointment so that you could receive a dentist appointment from your selected doctor.",
-    };
-
-    // Dispatch the action using the action creator
-    dispatch(addAppointment(newAppointment));
-    navigation.navigate("Confirmation", { date, time, doctor });
+  const handleCancelPress = (date, time, id) => {
+    dispatch({ type: "REMOVE_APPOINTMENT", payload: { id } });
+    navigation.navigate("CancelConfirm", { date, time });
   };
 
   return (
@@ -85,53 +47,42 @@ export default function PreConfirmation({ route }) {
           <Image source={backArrow} style={styles.backArrow} />
         </Pressable>
         <View style={styles.greeting}>
-          <Text style={styles.greetingText}>{firstName}'s</Text>
+          <Text style={styles.greetingText}>Your</Text>
           <Text style={styles.greetingText}>Appointment</Text>
         </View>
       </View>
-      <View style={{flex: 1}}/>
-      <Text style={styles.cardTitle}>Confirm Your Appointment</Text>
-      <View style={styles.card}>
-        <View style={styles.greenBar} />
-        <View style={styles.headerContainer}>
-          <Text style={styles.date}>{date}</Text>
-          <Text style={styles.time}>{time}</Text>
-        </View>
-        <View style={styles.detailsContainer}>
-          <View style={styles.doctorImageContainer}>
-            <DoctorImage image={image} />
-            <Text style={styles.doctorName}>{doctor}</Text>
-          </View>
-          <View style={styles.contentContainer}>
-            <Text style={styles.regularText}>
-              <Text style={styles.boldLabel}>Location:</Text> 105 Green Drive,
-              Stanford, California, 94305
-            </Text>
-            <TextWithBoldLabel label="Speciality: ">
-              Dentistry
-            </TextWithBoldLabel>
-            <TextWithBoldLabel label="In-Network: ">Yes</TextWithBoldLabel>
-            <TextWithBoldLabel label="Years Practiced: ">6</TextWithBoldLabel>
-            <Image
-              style={styles.ratings}
-              source={require("../assets/5stars.png")}
-            />
-          </View>
-        </View>
+      <View style={{flex: 1}}>
+        
       </View>
-      <View style={{flex: 2, marginTop: 20, }}>
-        <Text style={styles.question}>
-          Would you like CheckUp to book this appointment for you?
-        </Text>
-        <Pressable
-          style={styles.confirmButton}
-          onPress={() => handleAppointment(date, time, doctor)}
-        >
-          <Text style={styles.confirmText}>Yes, please!</Text>
-        </Pressable>
+      <View style={styles.appointmentContainer}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Yearly Check Up!</Text>
+          <Image source={penguinImage} style={styles.penguinImage} />
+        </View>
+        <DetailLine label="Physician: " value={doctor} />
+        <DetailLine label="Date: " value={date} />
+        <DetailLine label="Time: " value={time} />
+        <DetailLine
+          label="Address: "
+          value="459 Laguna Drive, Stanford, California, 94305, Office 2B"
+        />
+        <Image source={mapImage} style={styles.mapImage} />
+        <DetailLine
+          label="Reason for Visit: "
+          value="CheckUp scheduled this appointment so that you could receive your annual check-up from your primary doctor."
+        />
       </View>
 
-      <View style={{ flex: 2 }} />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => handleReschedulePress(id, doctor)}>
+          <Text style={styles.buttonText}>Reschedule</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handleCancelPress(date, time, id)}>
+          <Text style={styles.buttonText}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{flex:0.5}}/>
+
       <View style={styles.footer}>
         <Pressable
           style={styles.homeButton}
@@ -150,7 +101,9 @@ export default function PreConfirmation({ route }) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: "white",
   },
   header: {
     width: windowWidth,
@@ -217,7 +170,7 @@ const styles = StyleSheet.create({
     flex: 4,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: 'space-evenly',
+    justifyContent: "space-evenly",
   },
   headerContainer: {
     paddingLeft: 16,
@@ -320,10 +273,9 @@ const styles = StyleSheet.create({
   footer: {
     backgroundColor: "#8CB9EF",
     width: windowWidth,
-    height: 20,
     justifyContent: "flex-start",
     alignItems: "center",
-    flex: 1.25,
+    flex: 2.5,
   },
   backButton: {
     position: "absolute",
@@ -347,4 +299,65 @@ const styles = StyleSheet.create({
     height: "80%",
     resizeMode: "contain",
   },
+  appointmentContainer: {
+    width: '90%',
+    marginTop: 15,
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: 'rgba(255, 182, 193, 0.3)',
+  },
+  penguinImage: {
+    width: 60,
+    height: 60,
+  },
+  mapImage: {
+    width: '100%',
+    height: 150, // Adjust as necessary
+    marginVertical: 10,
+  },
+  reasonText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  detailText: {
+    fontSize: 18, 
+    marginBottom: 5,
+  },
+  boldText: {
+    fontWeight: 'bold',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 20,
+  },
+  titleContainer: {
+    flexDirection: 'row', // Lay out the children in a row
+    alignItems: 'flex-start', // Align items vertically
+    justifyContent: 'space-between'
+  },
+  button: {
+    backgroundColor: "#0000",
+    borderRadius: 10,
+    padding: 10,
+    width: 150,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#000000",
+  },
+  buttonText: {
+    color: "black",
+    fontSize: 16,
+    fontFamily: "AvenirNext-DemiBold"
+  },
+  buttonContainer: {
+    marginTop: 20,
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 2,
+    // backgroundColor: 'red',
+  }
 });

@@ -94,7 +94,7 @@ export default function CameraInsurance() {
           </View>
         </View>
       )}
-      <View style={{flex: 0.25, width: '100%',flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
+      <View style={{flex: 0.30, width: '100%',flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
         <Pressable style={styles.button} onPress={continueToNextPage}>
           <Text style={styles.text}>Skip</Text>
         </Pressable>

@@ -94,9 +94,9 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "#8CB9EF",
     paddingTop: Platform.OS === "android" ? 25 : 45, // Adjust this value to match the status bar height
-    // paddingHorizontal: 0, // This ensures the header spans the entire width
     alignItems: "center",
     justifyContent: "flex-end",
+    height: 130,
     paddingBottom: 12, // Space under the text in the header
   },
   headerTitle: {
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     top: 40,
     left: 20,
     padding: 10,
+    // backgroundColor: 'yellow',
   },
   backArrow: {
     width: 24,

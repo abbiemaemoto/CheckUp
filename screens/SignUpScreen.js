@@ -6,69 +6,48 @@ import {
   Pressable,
   Text,
   SafeAreaView,
+  Dimensions, 
+  Image
 } from "react-native";
 import { supabase } from "../supabase";
 import { Button, Input } from "react-native-elements";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { useAppointments } from "../AppointmentContext";
 
+const windowWidth = Dimensions.get("window").width;
+const backArrow = require("../assets/backarrow.png");
 
 export default function SignUpScreen() {
-  const [firstName, setfirstName] = useState("");
+  const { setFirstName } = useAppointments();
   const [lastName, setlastName] = useState("");
+  const [firstName, setFirstNameLocal] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  async function signUpWithEmail() {
-    setLoading(true);
-  
-    // Sign up the user
-    const { data: { session }, error: signUpError } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-  
-    // Handle sign-up error
-    if (signUpError) {
-      Alert.alert("SIGN UP ALERT: " + signUpError.message);
-      setLoading(false);
-      return;
-    }
-  
-    // Insert user profile
-    const { data, error: profileError } = await supabase
-      .from("profiles_test")
-      .upsert(
-        [
-          {
-            user_id: user.id,
-            first_name: firstName,
-            last_name: lastName,
-          },
-        ],
-        { onConflict: ['user_id'] }
-      );
-  
-    // Handle profile insert error
-    if (profileError) {
-      Alert.alert(profileError.message);
-    }
-
-    Alert.alert("Check Your Email for Verification!")
-  
-    setLoading(false);
+  const handlePress = () => {
+    setFirstName(firstName);
+    navigation.navigate("CameraInsurance")
   }
   
 
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
+      <View style={styles.blueBox}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Image source={backArrow} style={styles.backArrow} />
+        </Pressable>
+      </View>
       <View style={styles.container}>
         <Text style={styles.titletext}>Sign Up</Text>
         <View style={styles.verticallySpaced}>
           <Input
-            label="Name"
-            onChangeText={(text) => setfirstName(text)}
+            label="First Name"
+            onChangeText={(text) => setFirstNameLocal(text)}
             value={firstName}
             placeholder="First Name"
             autoCapitalize={"none"}
@@ -101,11 +80,8 @@ export default function SignUpScreen() {
           />
         </View>
         <View style={[styles.signupbox, styles.mt20]}>
-          <Pressable style={styles.button} onPress={() => signUpWithEmail()} disabled={loading}>
+          <Pressable style={styles.button} onPress={() => handlePress(firstName)} disabled={loading}>
             <Text style={styles.buttontext}>Sign Up</Text>
-          </Pressable>
-          <Pressable onPress={()=>navigation.navigate("CameraInsurance")}>
-            <Text>Next</Text>
           </Pressable>
         </View>
       </View>
@@ -115,7 +91,6 @@ export default function SignUpScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
     padding: 12,
     justifyContent: "center",
     alignItems: "center",
@@ -163,5 +138,22 @@ const styles = StyleSheet.create({
     fontFamily: "AvenirNext-DemiBold",
     padding: 0,
     margin: 0,
+  },
+  backButton: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    padding: 10,
+  },
+  backArrow: {
+    width: 24,
+    height: 24,
+  },
+  blueBox: {
+    width: windowWidth,
+    height: 125,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

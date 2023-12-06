@@ -26,6 +26,7 @@ import CancelConfirm from "./CancelConfirmation";
 import RescheduleConfirm from "./RescheduleConfirmation";
 import PreConfirm from "./PreConfirmation";
 import RescheduleCalendar from "./RescheduleCalendar";
+import MoreInfo from "./MoreInfo";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -34,6 +35,12 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate(screen);
   };
   const { state, dispatch } = useAppointments();
+  const { firstName } = useAppointments();
+
+
+  const handleMoreInfoPress = (date, time, doctor, id) => {
+    navigation.navigate('MoreInfo', { date, time, doctor, id });
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -41,7 +48,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.header}>
           <View style={styles.greetingContainer}>
             <Text style={styles.greeting}>Hello,</Text>
-            <Text style={styles.greetingName}>Angela!</Text>
+            <Text style={styles.greetingName}>{firstName}!</Text>
           </View>
           <View style={styles.iconsContainer}>
             <Image source={DiamondIcon} style={styles.diamondIcon} />
@@ -85,7 +92,7 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.time}>{appointment.time}</Text>
               </View>
               <View style={{flexDirection: 'column', justifyContent: 'flex-end', height: 60}}>
-                <Pressable style={styles.moreInfoButton}>
+                <Pressable style={styles.moreInfoButton} onPress={() => handleMoreInfoPress(appointment.date, appointment.time, appointment.doctor, appointment.id)}>
                   <Text style={styles.moreInfoButtonText}>More info</Text>
                 </Pressable>
               </View>
@@ -183,6 +190,11 @@ export default function HomeStack() {
         <Stack.Screen
           name="RescheduleCalendar"
           component={RescheduleCalendar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MoreInfo"
+          component={MoreInfo}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

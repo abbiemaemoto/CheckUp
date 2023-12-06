@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation, StackActions } from "@react-navigation/native";
+import {useAppointments} from "../AppointmentContext.js"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -18,6 +19,8 @@ const backArrow = require("../assets/backarrow.png");
 export default function Recommendations({ route }) {
   const navigation = useNavigation();
   const { date, time } = route.params;
+  const { firstName } = useAppointments();
+
   const handlePress = (date, time, doctor, image) => {
     navigation.navigate('PreConfirm', { date, time, doctor, image });
   };
@@ -32,7 +35,7 @@ export default function Recommendations({ route }) {
           <Image source={backArrow} style={styles.backArrow} />
         </Pressable>
         <View style={styles.greeting}>
-          <Text style={styles.greetingText}>Angela's</Text>
+          <Text style={styles.greetingText}>{firstName}'s</Text>
           <Text style={styles.greetingText}>Appointment</Text>
         </View>
       </View>

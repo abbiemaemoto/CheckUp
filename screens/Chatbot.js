@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? 0 : 0, // Set paddingTop to 0 for both platforms
     alignItems: 'center',
     justifyContent: 'center',
-    height: 130
+    height: 130,
   },
   headerTitle: {
     fontSize: 22,
@@ -172,10 +172,10 @@ const styles = StyleSheet.create({
       height: 24, 
     },
   headerStatus: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#fff',
     top: 20,
-    fontFamily: 'AvenirNext-Regular',
+    fontFamily: 'AvenirNext-DemiBold',
   },
   headerTime: {
     fontSize: 14,

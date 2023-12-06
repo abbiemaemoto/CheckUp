@@ -18,7 +18,7 @@ export default function ProfileDone() {
               <Image source={backArrow} style={styles.backArrow} />
             </Pressable>
           </View>
-          <View style={{flex: 1.5, justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
             <Image source={penguin}/>
             <Text style={styles.regularText}>Profile Complete!</Text>
           </View>

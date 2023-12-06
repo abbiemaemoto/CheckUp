@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation, StackActions } from "@react-navigation/native";
+import { useAppointments } from "../AppointmentContext.js"
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -30,6 +31,8 @@ export default function Scheduling() {
   const handlePress = (date, time) => {
     navigation.navigate('Recommendations', { date, time });
   };
+  const { firstName } = useAppointments();
+
 
   return (
     <View style={styles.container}>
@@ -42,7 +45,7 @@ export default function Scheduling() {
           <Image source={backArrow} style={styles.backArrow} />
         </Pressable>
         <View style={styles.greeting}>
-          <Text style={styles.greetingText}>Angela's Calendar</Text>
+          <Text style={styles.greetingText}>{firstName}'s Calendar</Text>
         </View>
       </View>
       <View style={{ flex: 4, justifyContent: "center", alignItems: "center" }}>
@@ -98,9 +101,9 @@ const styles = StyleSheet.create({
   },
   home: {
     width: "80%",
-    height: "80%",
+    height: "75%",
     resizeMode: "contain",
-    top: -15,
+    top: -10,
   },
   container: {
     flex: 1,

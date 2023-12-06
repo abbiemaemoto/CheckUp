@@ -38,9 +38,12 @@ const appointmentsReducer = (state, action) => {
 // Create a context provider component
 export const AppointmentsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appointmentsReducer, initialState);
+  const [firstName, setFirstName] = React.useState("");
+  const contextValue = React.useMemo(() => ({ state, dispatch, firstName, setFirstName }), [state, dispatch, firstName, setFirstName]);
+
 
   return (
-    <AppointmentsContext.Provider value={{ state, dispatch }}>
+    <AppointmentsContext.Provider value={contextValue}>
       {children}
     </AppointmentsContext.Provider>
   );

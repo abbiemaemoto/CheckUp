@@ -21,6 +21,8 @@ export default function Rescheduling() {
   const [showConfirmButton, setShowConfirmButton] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const navigation = useNavigation();
+  const { firstName } = useAppointments();
+
 
   const handleCancelPress = (date, time, id) => {
     dispatch({ type: 'REMOVE_APPOINTMENT', payload: { id } });
@@ -50,7 +52,7 @@ export default function Rescheduling() {
             <Image source={backArrow} style={styles.backArrow} />
           </Pressable>
           <View style={styles.greeting}>
-            <Text style={styles.greetingText}>Angela's Appointments</Text>
+            <Text style={styles.greetingText}>{firstName}'s Appointments</Text>
           </View>
         </View>
         <View

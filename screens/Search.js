@@ -35,6 +35,9 @@ export default function Search() {
           <Text style={styles.greetingText}>Status: Scheduling an Appointment</Text>
         </View>
       </View>
+      <View>
+        
+      </View>
       <View style={{ flex: 0.05 }} />
 
       <View style={{ flex: 0.1, marginBottom: 20 }}>

@@ -41,7 +41,7 @@ export default function RescheduleConfirmation({ route }) {
       >
         <Text style={styles.regularText}>Your appointment</Text>
         <View style={styles.lineContainer2}>
-          <Text style={styles.regularText}>
+          <Text style={[styles.regularText]}>
             with <Text style={styles.doctorText}>{doctor}</Text> has{" "}
           </Text>
         </View>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   lineContainer2: {
     justifyContent: "center",
     flexDirection: "row",
-    width: "75%",
+    width: "100%",
   },
 
   regularText: {

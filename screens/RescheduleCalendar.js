@@ -30,6 +30,8 @@ export default function RescheduleCalendar({ route }) {
   const navigation = useNavigation();
   const { state, dispatch } = useAppointments();
   const { id, doctor } = route.params;
+  const { firstName } = useAppointments();
+
   const handlePress = (date, time) => {
     dispatch({
       type: 'EDIT_APPOINTMENT',
@@ -49,7 +51,7 @@ export default function RescheduleCalendar({ route }) {
           <Image source={backArrow} style={styles.backArrow} />
         </Pressable>
         <View style={styles.greeting}>
-          <Text style={styles.greetingText}>Angela's Calendar</Text>
+          <Text style={styles.greetingText}>{firstName}'s Calendar</Text>
         </View>
       </View>
       <View style={{ flex: 4, justifyContent: "center", alignItems: "center" }}>
