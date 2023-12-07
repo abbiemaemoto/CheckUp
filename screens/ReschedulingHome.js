@@ -8,6 +8,7 @@ import {
   ScrollView,
   StatusBar,
   TouchableWithoutFeedback,
+  SafeAreaView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation, StackActions } from "@react-navigation/native";
@@ -22,7 +23,7 @@ export default function Rescheduling() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const navigation = useNavigation();
   const { firstName } = useAppointments();
-
+  const { state, dispatch } = useAppointments();
 
   const handleCancelPress = (date, time, id) => {
     dispatch({ type: 'REMOVE_APPOINTMENT', payload: { id } });
@@ -30,7 +31,7 @@ export default function Rescheduling() {
   };
 
   const handleReschedulePress = (id, doctor) => {
-    navigation.navigate("RescheduleCalendar", {id, doctor});
+    navigation.navigate("RescheduleCalendar", { id, doctor });
   };
 
   const handlePressOutside = () => {
@@ -38,10 +39,8 @@ export default function Rescheduling() {
     setShowConfirmButton(false);
   };
 
-  const { state, dispatch } = useAppointments();
-
   return (
-    <TouchableWithoutFeedback onPress={handlePressOutside}>
+    // <TouchableWithoutFeedback onPress={handlePressOutside}>
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#8CB9EF" />
         <View style={styles.blueBox}>
@@ -56,67 +55,82 @@ export default function Rescheduling() {
           </View>
         </View>
         <View
-          style={{ flex: 4, justifyContent: "center", alignItems: "center" }}
+          style={{
+            flex: 4,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           <Image
             source={require("../assets/appointmentscalendar1.png")}
             style={styles.image}
           />
         </View>
-        <View style={{ flex: 0.5 }}>
+        <View
+          style={{
+            flex: 0.50,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Text style={styles.midText}>View Upcoming Appointments</Text>
         </View>
-        <ScrollView contentContainerStyle={styles.pinkBoxWrapper}>
-          {state.appointments.map((appointment) => (
-            <View style={styles.pinkBox} key={appointment.id}>
-              <View style={styles.line1}>
-                <Text style={styles.appointmentTitle}>
-                  Appointment with {appointment.doctor}
-                </Text>
-                <Text style={styles.bodyText}>{appointment.date}</Text>
-                <Text style={styles.time}>{appointment.time}</Text>
+        <SafeAreaView style={{ flex: 2 }}>
+          <ScrollView contentContainerStyle={styles.pinkBoxWrapper}>
+            {state.appointments.map((appointment) => (
+              <View style={styles.pinkBox} key={appointment.id}>
+                <View style={styles.line1}>
+                  <Text style={styles.appointmentTitle}>
+                    Appointment with {appointment.doctor}
+                  </Text>
+                  <Text style={styles.bodyText}>{appointment.date}</Text>
+                  <Text style={styles.time}>{appointment.time}</Text>
+                </View>
+                {showButtons && (
+                  <View style={styles.buttons}>
+                    <Pressable
+                      style={styles.select}
+                      onPress={() => {
+                        setSelectedAppointment(appointment);
+                        setShowButtons(false);
+                        setShowConfirmButton(true);
+                      }}
+                    >
+                      <Text style={styles.bodyText}>Cancel</Text>
+                    </Pressable>
+                    <Pressable
+                      style={styles.select}
+                      onPress={() =>
+                        handleReschedulePress(
+                          appointment.id,
+                          appointment.doctor
+                        )
+                      }
+                    >
+                      <Text style={styles.bodyText}>Reschedule</Text>
+                    </Pressable>
+                  </View>
+                )}
+                {showConfirmButton && selectedAppointment === appointment && (
+                  <View style={styles.buttons}>
+                    <Pressable
+                      style={styles.select}
+                      onPress={() =>
+                        handleCancelPress(
+                          appointment.date,
+                          appointment.time,
+                          appointment.id
+                        )
+                      }
+                    >
+                      <Text style={styles.bodyText}>Confirm Cancel</Text>
+                    </Pressable>
+                  </View>
+                )}
               </View>
-              {showButtons && (
-                <View style={styles.buttons}>
-                  <Pressable
-                    style={styles.select}
-                    onPress={() => {
-                      // Set the selected appointment when "Cancel" is clicked
-                      setSelectedAppointment(appointment);
-                      setShowButtons(false);
-                      setShowConfirmButton(true);
-                    }}
-                  >
-                    <Text style={styles.bodyText}>Cancel</Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.select}
-                    onPress={() =>
-                      handleReschedulePress(
-                        appointment.id,
-                        appointment.doctor,
-                      )
-                    }
-                  >
-                    <Text style={styles.bodyText}>Reschedule</Text>
-                  </Pressable>
-                </View>
-              )}
-              {showConfirmButton && selectedAppointment === appointment && (
-                <View style={styles.buttons}>
-                  <Pressable
-                    style={styles.select}
-                    onPress={() =>
-                      handleCancelPress(appointment.date, appointment.time, appointment.id)
-                    }
-                  >
-                    <Text style={styles.bodyText}>Confirm Cancel</Text>
-                  </Pressable>
-                </View>
-              )}
-            </View>
-          ))}
-        </ScrollView>
+            ))}
+          </ScrollView>
+        </SafeAreaView>
         <View style={styles.footer}>
           <Pressable
             style={styles.homeButton}
@@ -129,7 +143,7 @@ export default function Rescheduling() {
           </Pressable>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    // </TouchableWithoutFeedback>
   );
 }
 
@@ -147,10 +161,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    height: "110%",
-    position: "absolute",
+    // height: "110%",
+    // position: "absolute",
     backgroundColor: "white",
-    overflow: "hidden",
+    // overflow: "hidden",
     flexDirection: "column",
     justifyContent: "space-between",
   },
@@ -212,17 +226,18 @@ const styles = StyleSheet.create({
   },
 
   pinkBoxWrapper: {
-    width: windowWidth,
+    width: windowWidth, // Adjusted to windowWidth
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    height: 250,
-    backgroundColor: "red",
+    // flex: 1,
+    // height: 300,
+    // backgroundColor: 'red',
   },
 
   pinkBox: {
     width: windowWidth - 40,
-    height: 80,
+    // height: 80,
     backgroundColor: "#FCE4EC",
     borderRadius: 10,
     flexDirection: "row",
@@ -261,16 +276,16 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
     alignItems: "center",
-    top: -30,
+    // top: -30,
   },
 
   footer: {
     backgroundColor: "#8CB9EF",
     width: windowWidth,
-    height: 20,
+    // height: 20,
     justifyContent: "center",
     alignItems: "center",
-    flex: 1.5,
+    flex: 1,
   },
 
   buttons: {

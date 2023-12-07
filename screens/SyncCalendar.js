@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 0.75,
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     width: "100%",
   },
@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontFamily: "AvenirNext-DemiBold",
     fontSize: 50,
+    marginTop: 20,
   },
   bodyText: {
     fontFamily: "AvenirNext-Regular",

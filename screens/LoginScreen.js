@@ -35,7 +35,7 @@ export default function LoginScreen() {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
       <View style={styles.blueBox}>
         <Pressable
           style={styles.backButton}
@@ -71,7 +71,7 @@ export default function LoginScreen() {
           </Pressable>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

@@ -10,14 +10,13 @@ import {
 import { Camera } from "expo-camera";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
-
-export default function CameraInsurance() {
-  const backArrow = require("../assets/backarrow.png");
-  const navigation = useNavigation();
+export default function CameraCalendar() {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [hasPermission, setHasPermission] = useState(null);
   const [photo, setPhoto] = useState(null);
   const cameraRef = useRef(null);
+  const backArrow = require("../assets/backarrow.png");
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -46,32 +45,40 @@ export default function CameraInsurance() {
   };
 
   const continueToNextPage = () => {
-    navigation.navigate("SyncCalendar")
-  };
-  
-  const goBack = () =>{
-    navigation.goBack()
+    navigation.navigate("SyncCalendar");
   };
 
   return (
-    <View style={{flex: 1,justifyContent: "center", alignItems: "center", width: '100%'}}>
-      {/* <View style={{height: 125, backgroundColor: 'red',}}> */}
-      {/* </View> */}
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+      }}
+    >
       <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={goBack}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
           <Image source={backArrow} style={styles.backArrow} />
         </Pressable>
         <Text style={styles.headerText}>Insurance</Text>
-        <Text style={styles.bodyText}>
-          If available, please scan your insurance card.
-        </Text>
+        <Text style={styles.bodyText}>Scan your insurance.</Text>
       </View>
 
       {photo ? (
         <View style={styles.previewContainer}>
           <Text style={styles.greenText}>Scan Successful!</Text>
           <Image source={{ uri: photo.uri }} style={styles.previewImage} />
-          <View style={{ flex: 0.5, alignItems: "center", justifyContent: "center" }}>
+          <View
+            style={{
+              flex: 0.5,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <View style={styles.buttonContainer}>
               <Pressable style={styles.button} onPress={retakePicture}>
                 <Text style={styles.text}>Retake</Text>
@@ -83,9 +90,15 @@ export default function CameraInsurance() {
           </View>
         </View>
       ) : (
-        <View style={{ flex: 1.75, width: '100%'}}>
+        <View style={{ flex: 2.25, width: "100%", justifyContent: 'center', alignItems: 'center' }}>
           <Camera style={styles.camera} type={type} ref={cameraRef} />
-          <View style={{ flex: 0.5, alignItems: "center", justifyContent: "center" }}>
+          <View
+            style={{
+              flex: 0.5,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <View style={styles.buttonContainer}>
               <Pressable style={styles.button} onPress={takePicture}>
                 <Text style={styles.text}>Take Picture</Text>
@@ -94,7 +107,16 @@ export default function CameraInsurance() {
           </View>
         </View>
       )}
-      <View style={{flex: 0.30, width: '100%',flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
+
+      <View
+        style={{
+          flex: 0.5,
+          width: "100%",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
+      >
         <Pressable style={styles.button} onPress={continueToNextPage}>
           <Text style={styles.text}>Skip</Text>
         </Pressable>
@@ -125,11 +147,12 @@ const styles = StyleSheet.create({
     flex: 0.75,
     justifyContent: "center",
     alignItems: "center",
-    width: '100%',
+    width: "100%",
   },
   headerText: {
     fontFamily: "AvenirNext-DemiBold",
     fontSize: 50,
+    marginTop: 20,
   },
   bodyText: {
     fontFamily: "AvenirNext-Regular",
@@ -154,21 +177,19 @@ const styles = StyleSheet.create({
   text: {
     color: "black",
     fontSize: 16,
-    fontFamily: "AvenirNext-DemiBold"
+    fontFamily: "AvenirNext-DemiBold",
   },
 
   greenText: {
-    color: 'green',
+    color: "green",
     fontSize: 20,
-    fontFamily: 'AvenirNext-DemiBold'
+    fontFamily: "AvenirNext-DemiBold",
   },
   backButton: {
     position: "absolute",
     top: 40,
     left: 20,
     padding: 10,
-    // backgroundColor: 'yellow',
-
   },
   backArrow: {
     width: 24,

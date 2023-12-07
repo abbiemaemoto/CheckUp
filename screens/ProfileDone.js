@@ -18,9 +18,11 @@ export default function ProfileDone() {
               <Image source={backArrow} style={styles.backArrow} />
             </Pressable>
           </View>
-          <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
-            <Image source={penguin}/>
-            <Text style={styles.regularText}>Profile Complete!</Text>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <View style={{marginBottom: 100, justifyContent: 'center', alignItems: 'center'}}>
+              <Image source={penguin} style={{marginBottom: 20}}/>
+              <Text style={styles.regularText}>Profile Complete!</Text>
+            </View>
           </View>
         </View>
         
@@ -28,7 +30,6 @@ export default function ProfileDone() {
 };
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         height: '100%',
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
         height: 24,
       },
       header: {
-        flex: 0.25,
+        height: 100,
+        // flex: 0.25,
         justifyContent: "center",
         alignItems: "center",
         width: '100%',

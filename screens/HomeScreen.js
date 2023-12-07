@@ -7,6 +7,7 @@ import {
   Image,
   SafeAreaView,
   Dimensions,
+  ScrollView,
   StatusBar,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -81,24 +82,27 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.appointmentsHeader}>
           Your Upcoming Appointments
         </Text>
-        <View style={styles.pinkBoxWrapper}>
-          {state.appointments.slice(0, 2).map((appointment) => (
-            <View style={styles.pinkBox} key={appointment.id}>
-              <View style={styles.line1}>
-                <Text style={styles.appointmentTitle}>
-                  Appointment with {appointment.doctor}
-                </Text>
-                <Text style={styles.bodyText}>{appointment.date}</Text>
-                <Text style={styles.time}>{appointment.time}</Text>
+        <View style={{flex: 4}}>
+          <ScrollView contentContainerStyle={styles.pinkBoxWrapper}>
+            {state.appointments.map((appointment) => (
+              <View style={styles.pinkBox} key={appointment.id}>
+                <View style={styles.line1}>
+                  <Text style={styles.appointmentTitle}>
+                    Appointment with {appointment.doctor}
+                  </Text>
+                  <Text style={styles.bodyText}>{appointment.date}</Text>
+                  <Text style={styles.time}>{appointment.time}</Text>
+                </View>
+                <View style={{flexDirection: 'column', justifyContent: 'flex-end', height: 60}}>
+                  <Pressable style={styles.moreInfoButton} onPress={() => handleMoreInfoPress(appointment.date, appointment.time, appointment.doctor, appointment.id)}>
+                    <Text style={styles.moreInfoButtonText}>More info</Text>
+                  </Pressable>
+                </View>
               </View>
-              <View style={{flexDirection: 'column', justifyContent: 'flex-end', height: 60}}>
-                <Pressable style={styles.moreInfoButton} onPress={() => handleMoreInfoPress(appointment.date, appointment.time, appointment.doctor, appointment.id)}>
-                  <Text style={styles.moreInfoButtonText}>More info</Text>
-                </Pressable>
-              </View>
-            </View>
-          ))}
+            ))}
+          </ScrollView>
         </View>
+        <View style={{flex: 0.5}}/>
         <View style={styles.buttonsContainer}>
           <Pressable style={styles.button} onPress={() => onPress("Selection")}>
             <Text style={styles.buttonText}>Schedule Appointment</Text>
@@ -376,16 +380,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    // backgroundColor: 'purple',
   },
   pinkBoxWrapper: {
     width: windowWidth,
-    height: 250,
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    // backgroundColor: 'red'
-    // flex: 1,
+    // backgroundColor: 'red',
+    // paddingBottom: 100,
   },
 
   pinkBox: {

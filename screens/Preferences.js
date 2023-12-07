@@ -84,7 +84,8 @@ export default function Preferences() {
         >
           <Image source={backArrow} style={styles.backArrow} />
         </Pressable>
-        <Text style={styles.headerText}>Care Preferences</Text>
+        <Text style={styles.headerText}>Care</Text>
+        <Text style={styles.headerText}>Preferences</Text>
         <Text style={styles.bodyText}>Select your preferences for care.</Text>
       </View>
       <View style={styles.body}>
@@ -324,7 +325,7 @@ const styles = StyleSheet.create({
     height: 24,
   },
   header: {
-    flex: 0.85,
+    flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
     width: "100%",

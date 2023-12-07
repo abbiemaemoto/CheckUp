@@ -45,19 +45,27 @@ export default function CameraCalendar() {
   };
 
   const continueToNextPage = () => {
-    navigation.navigate("Preferences")
+    navigation.navigate("Preferences");
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "white",
+      }}
+    >
       <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
           <Image source={backArrow} style={styles.backArrow} />
         </Pressable>
         <Text style={styles.headerText}>Calendar</Text>
-        <Text style={styles.bodyText}>
-          Scan your paper calendar.
-        </Text>
+        <Text style={styles.bodyText}>Scan your paper calendar.</Text>
       </View>
 
       {photo ? (
@@ -82,7 +90,7 @@ export default function CameraCalendar() {
           </View>
         </View>
       ) : (
-        <View style={{ flex: 1.75, width: "100%" }}>
+        <View style={{ flex: 2.25, width: "100%", justifyContent: 'center', alignItems: 'center' }}>
           <Camera style={styles.camera} type={type} ref={cameraRef} />
           <View
             style={{
@@ -99,20 +107,19 @@ export default function CameraCalendar() {
           </View>
         </View>
       )}
+
       <View
         style={{
-          flex: 0.25,
+          flex: 0.5,
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "flex-end",
         }}
       >
-      <View style={{flex: 0.25, width: '100%',flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
         <Pressable style={styles.button} onPress={continueToNextPage}>
           <Text style={styles.text}>Skip</Text>
         </Pressable>
-      </View>
       </View>
     </View>
   );
@@ -140,11 +147,12 @@ const styles = StyleSheet.create({
     flex: 0.75,
     justifyContent: "center",
     alignItems: "center",
-    width: '100%',
+    width: "100%",
   },
   headerText: {
     fontFamily: "AvenirNext-DemiBold",
     fontSize: 50,
+    marginTop: 20,
   },
   bodyText: {
     fontFamily: "AvenirNext-Regular",

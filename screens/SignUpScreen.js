@@ -33,7 +33,7 @@ export default function SignUpScreen() {
   
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
       <View style={styles.blueBox}>
         <Pressable
           style={styles.backButton}
@@ -85,7 +85,7 @@ export default function SignUpScreen() {
           </Pressable>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
     padding: 12,
     justifyContent: "center",
     alignItems: "center",
+    // backgroundColor: 'red',
   },
   title: {
     paddingTop: 20,
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
   blueBox: {
     width: windowWidth,
     height: 125,
-    backgroundColor: "white",
+    // backgroundColor: "pink",
     justifyContent: "center",
     alignItems: "center",
   },
