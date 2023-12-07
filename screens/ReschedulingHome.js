@@ -26,7 +26,7 @@ export default function Rescheduling() {
   const { state, dispatch } = useAppointments();
 
   const handleCancelPress = (date, time, id) => {
-    dispatch({ type: 'REMOVE_APPOINTMENT', payload: { id } });
+    dispatch({ type: "REMOVE_APPOINTMENT", payload: { id } });
     navigation.navigate("CancelConfirm", { date, time });
   };
 
@@ -40,43 +40,44 @@ export default function Rescheduling() {
   };
 
   return (
-    // <TouchableWithoutFeedback onPress={handlePressOutside}>
-      <View style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor="#8CB9EF" />
-        <View style={styles.blueBox}>
-          <Pressable
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Image source={backArrow} style={styles.backArrow} />
-          </Pressable>
-          <View style={styles.greeting}>
-            <Text style={styles.greetingText}>{firstName}'s Appointments</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flex: 4,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#8CB9EF" />
+      <View style={styles.blueBox}>
+        <Pressable
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
         >
-          <Image
-            source={require("../assets/appointmentscalendar1.png")}
-            style={styles.image}
-          />
+          <Image source={backArrow} style={styles.backArrow} />
+        </Pressable>
+        <View style={styles.greeting}>
+          <Text style={styles.greetingText}>{firstName}'s Appointments</Text>
         </View>
-        <View
-          style={{
-            flex: 0.50,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={styles.midText}>View Upcoming Appointments</Text>
-        </View>
-        <SafeAreaView style={{ flex: 2 }}>
-          <ScrollView contentContainerStyle={styles.pinkBoxWrapper}>
+      </View>
+      <View
+        style={{
+          flex: 4,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          source={require("../assets/appointmentscalendar1.png")}
+          style={styles.image}
+        />
+      </View>
+      <View
+        style={{
+          flex: 0.5,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.midText}>View Upcoming Appointments</Text>
+      </View>
+      <SafeAreaView style={{ flex: 2 }}>
+        <ScrollView contentContainerStyle={styles.pinkBoxWrapper}>
+          <TouchableWithoutFeedback onPress={handlePressOutside}>
+            <View>
             {state.appointments.map((appointment) => (
               <View style={styles.pinkBox} key={appointment.id}>
                 <View style={styles.line1}>
@@ -129,21 +130,22 @@ export default function Rescheduling() {
                 )}
               </View>
             ))}
-          </ScrollView>
-        </SafeAreaView>
-        <View style={styles.footer}>
-          <Pressable
-            style={styles.homeButton}
-            onPress={() => navigation.dispatch(StackActions.popToTop())}
-          >
-            <Image
-              source={require("../assets/homebutton.png")}
-              style={styles.home}
-            />
-          </Pressable>
-        </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      </SafeAreaView>
+      <View style={styles.footer}>
+        <Pressable
+          style={styles.homeButton}
+          onPress={() => navigation.dispatch(StackActions.popToTop())}
+        >
+          <Image
+            source={require("../assets/homebutton.png")}
+            style={styles.home}
+          />
+        </Pressable>
       </View>
-    // </TouchableWithoutFeedback>
+    </View>
   );
 }
 
@@ -230,14 +232,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    // flex: 1,
-    // height: 300,
-    // backgroundColor: 'red',
   },
 
   pinkBox: {
     width: windowWidth - 40,
-    // height: 80,
     backgroundColor: "#FCE4EC",
     borderRadius: 10,
     flexDirection: "row",
@@ -276,16 +274,15 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
     alignItems: "center",
-    // top: -30,
+    top: 20,
   },
 
   footer: {
     backgroundColor: "#8CB9EF",
     width: windowWidth,
-    // height: 20,
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
+    flex: 0.8,
   },
 
   buttons: {
